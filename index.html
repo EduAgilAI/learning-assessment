@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assessment de Transformación del Aprendizaje</title>
+<meta name="description" content="¿Cómo viene tu organización aprendiendo de verdad? Diagnóstico de madurez del aprendizaje organizacional. Por Karina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#1A3A2A;--forest-mid:#224A36;--forest-light:#2E6348;
+  --sage:#4A7A5E;--sage-light:#6A9A7E;
+  --gold:#C8A84B;--gold-light:#E2C97E;--gold-pale:#F5EDD0;--gold-dim:#C8A84B44;
+  --silver:#9AA8A0;--silver-light:#C2CEC8;--silver-pale:#EDF2EF;
+  --ink:#1A2420;--cream:#F8FAF8;--white:#FFFFFF;
+  --border:#D4DDD8;--border-dark:#2E4A3A;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;-webkit-font-smoothing:antialiased}
+.screen{display:none}
+.screen.active{display:block;animation:fadeUp 0.5s cubic-bezier(.4,0,.2,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* INTRO */
+#intro{min-height:100vh;background:var(--forest);position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
+#intro::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(200,168,75,0.07) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+#intro::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 20% 50%,rgba(46,99,72,0.5) 0%,transparent 70%);pointer-events:none}
+.intro-left{padding:3.5rem 3rem 3rem 4rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:2}
+.intro-right{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;padding:2rem}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:3rem}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);letter-spacing:0.02em}
+.brand-name span{color:var(--gold)}
+.intro-tag{display:inline-block;font-size:10px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dim);padding:5px 14px;border-radius:2px;margin-bottom:1.5rem}
+.intro-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:600;line-height:1.15;color:var(--white);margin-bottom:1.25rem}
+.intro-title em{font-style:italic;font-weight:400;color:var(--gold-light)}
+.intro-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,1.6vw,19px);font-style:italic;font-weight:400;color:rgba(255,255,255,0.65);line-height:1.75;border-left:2px solid var(--gold);padding-left:1.25rem;margin-bottom:2.5rem;max-width:480px}
+.intro-meta{display:flex;gap:1.5rem;margin-bottom:2.5rem}
+.meta-item{display:flex;flex-direction:column;align-items:center;background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.2);border-radius:4px;padding:12px 20px;min-width:80px}
+.meta-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold-light);line-height:1}
+.meta-label{font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px}
+.btn-start{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--forest);border:none;padding:16px 36px;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;border-radius:3px;cursor:pointer;transition:all 0.2s;align-self:flex-start}
+.btn-start:hover{background:var(--gold-light);transform:translateX(4px)}
+.intro-byline{margin-top:2rem;font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.06em;font-weight:300}
+.illustration-wrap{width:100%;max-width:460px}
+
+/* QUIZ */
+#quiz{min-height:100vh;background:var(--cream);padding:0 0 6rem}
+.quiz-nav{background:var(--forest);padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;border-bottom:2px solid var(--gold)}
+.nav-brand{display:flex;align-items:center;gap:8px}
+.nav-brand-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--white)}
+.nav-brand-text span{color:var(--gold)}
+.progress-area{display:flex;align-items:center;gap:14px}
+.progress-bar{width:160px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.5s cubic-bezier(.4,0,.2,1)}
+.progress-num{font-size:12px;color:rgba(255,255,255,0.35);font-weight:400;letter-spacing:0.04em}
+.quiz-body{max-width:660px;margin:0 auto;padding:3.5rem 1.5rem}
+.dim-tag{display:inline-flex;align-items:center;gap:8px;margin-bottom:1.25rem}
+.dim-dot{width:8px;height:8px;border-radius:50%}
+.dim-label{font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--sage)}
+.q-num{font-size:11px;color:var(--silver);margin-bottom:0.5rem;letter-spacing:0.06em}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3.5vw,30px);font-weight:600;line-height:1.4;color:var(--ink);margin-bottom:2.5rem}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{background:var(--white);border:1.5px solid var(--border);border-radius:6px;padding:16px 20px;cursor:pointer;font-size:14px;font-weight:300;line-height:1.6;color:var(--ink);transition:all 0.18s;text-align:left;display:flex;align-items:flex-start;gap:14px}
+.opt:hover{border-color:var(--sage);background:var(--silver-pale)}
+.opt.selected{background:var(--forest);border-color:var(--forest);color:var(--white)}
+.opt-badge{width:26px;height:26px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px;font-family:'Cormorant Garamond',serif}
+.opt-text{flex:1}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem}
+.btn-back{background:transparent;border:1.5px solid var(--border);padding:11px 24px;border-radius:3px;font-family:'Jost',sans-serif;font-size:12px;font-weight:500;cursor:pointer;color:var(--silver);transition:all 0.15s;letter-spacing:0.08em;text-transform:uppercase}
+.btn-back:hover:not(:disabled){border-color:var(--ink);color:var(--ink)}
+.btn-back:disabled{opacity:0.2;cursor:not-allowed}
+.btn-next{background:var(--forest);color:var(--white);border:1.5px solid var(--forest);padding:11px 28px;border-radius:3px;font-family:'Jost',sans-serif;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.15s}
+.btn-next:hover:not(:disabled){background:var(--forest-mid)}
+.btn-next:disabled{opacity:0.25;cursor:not-allowed}
+
+/* RESULTS */
+#results{background:var(--cream);padding:0 0 6rem}
+.results-hero{background:var(--forest);padding:4rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.results-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(200,168,75,0.06) 1px,transparent 1px);background-size:24px 24px}
+.results-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(200,168,75,0.12) 0%,transparent 65%)}
+.results-top-bar{height:3px;background:var(--gold);position:absolute;top:0;left:0;right:0}
+.results-brand{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:14px;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:2.5rem;position:relative;z-index:1}
+.results-brand span{color:rgba(255,255,255,0.3);font-weight:300}
+.ring-wrap{width:170px;height:170px;margin:0 auto 2rem;position:relative;display:flex;align-items:center;justify-content:center}
+.ring-wrap svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
+.ring-inner{text-align:center;position:relative;z-index:1}
+.ring-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--white);display:block;line-height:1}
+.ring-of{font-size:12px;color:rgba(255,255,255,0.3);letter-spacing:0.1em}
+.result-level{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3.5vw,30px);font-weight:600;color:var(--white);margin-bottom:0.75rem;position:relative;z-index:1}
+.result-desc{font-size:14px;color:rgba(255,255,255,0.5);max-width:460px;margin:0 auto;line-height:1.8;position:relative;z-index:1;font-weight:300}
+.results-body{max-width:660px;margin:0 auto;padding:3rem 1.5rem}
+.section-label{font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--sage);margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.dim-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.dim-name{font-size:13px;color:var(--ink);min-width:190px;font-weight:400}
+.bar-bg{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.bar-pct{font-size:12px;color:var(--silver);min-width:34px;text-align:right;font-weight:500}
+.recs-card{background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:2rem;margin-top:2.5rem;border-top:3px solid var(--gold)}
+.recs-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;margin-bottom:1.5rem;color:var(--ink)}
+.rec-item{display:flex;gap:14px;margin-bottom:1.1rem;align-items:flex-start}
+.rec-num{width:26px;height:26px;border-radius:50%;background:var(--forest);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px}
+.rec-text{font-size:13px;line-height:1.75;color:var(--ink);font-weight:300}
+.cta-card{background:var(--forest);border-radius:8px;padding:2.5rem 2rem;margin-top:1.5rem;text-align:center;position:relative;overflow:hidden}
+.cta-card::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(200,168,75,0.06) 1px,transparent 1px);background-size:20px 20px}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:0.75rem;position:relative;z-index:1}
+.cta-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:2rem;line-height:1.7;max-width:400px;margin-left:auto;margin-right:auto;font-weight:300;position:relative;z-index:1}
+.btn-cta{background:var(--gold);color:var(--forest);border:none;padding:14px 36px;border-radius:3px;font-family:'Jost',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:inline-block;text-decoration:none;position:relative;z-index:1}
+.btn-cta:hover{background:var(--gold-light);transform:translateY(-2px)}
+.restart-btn{display:block;width:100%;margin-top:1.25rem;background:transparent;border:1.5px solid var(--border);padding:12px;border-radius:3px;font-family:'Jost',sans-serif;font-size:11px;color:var(--silver);cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;transition:all 0.15s}
+.restart-btn:hover{border-color:var(--sage);color:var(--sage)}
+.footer-sign{text-align:center;font-size:11px;color:var(--silver);letter-spacing:0.06em;margin-top:3rem;line-height:2;font-weight:300}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:15px;color:var(--forest);display:block;margin-bottom:4px}
+@media(max-width:768px){#intro{grid-template-columns:1fr}.intro-right{display:none}.intro-left{padding:2.5rem 1.5rem}}
+</style>
+</head>
+<body>
+
+<div id="intro" class="screen active">
+  <div class="intro-left">
+
+    <div>
+      <div class="intro-tag">Assessment · Aprendizaje Organizacional</div>
+      <h1 class="intro-title">¿Cómo viene tu organización <em>aprendiendo de verdad?</em></h1>
+      <div class="intro-quote">"¿Cuánto tiempo pasó desde tu última formación formal? Y desde entonces... ¿seguís aplicando lo que aprendiste?"</div>
+      <div class="intro-meta">
+        <div class="meta-item"><span class="meta-num">12</span><span class="meta-label">Preguntas</span></div>
+        <div class="meta-item"><span class="meta-num">6</span><span class="meta-label">Dimensiones</span></div>
+        <div class="meta-item"><span class="meta-num">~5'</span><span class="meta-label">Minutos</span></div>
+      </div>
+      <button class="btn-start" onclick="startQuiz()">Comenzar diagnóstico →</button>
+    </div>
+    <div class="intro-byline">Diseñado por Karina · Co-creado con Claude, su agente de IA</div>
+  </div>
+
+  <div class="intro-right">
+    <div class="illustration-wrap">
+      <svg viewBox="0 0 460 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="230" cy="260" r="200" fill="rgba(200,168,75,0.04)" stroke="rgba(200,168,75,0.1)" stroke-width="1"/>
+        <circle cx="230" cy="260" r="150" fill="rgba(200,168,75,0.03)" stroke="rgba(200,168,75,0.07)" stroke-width="1"/>
+        <!-- Mesa -->
+        <rect x="60" y="340" width="340" height="12" rx="6" fill="#2E4A3A"/>
+        <rect x="80" y="352" width="16" height="60" rx="4" fill="#22382A"/>
+        <rect x="364" y="352" width="16" height="60" rx="4" fill="#22382A"/>
+        <!-- Laptop -->
+        <rect x="140" y="240" width="180" height="110" rx="8" fill="#1A2E22" stroke="#C8A84B" stroke-width="1.5"/>
+        <rect x="150" y="250" width="160" height="90" rx="4" fill="#0F1E14"/>
+        <rect x="160" y="262" width="60" height="6" rx="3" fill="rgba(200,168,75,0.6)"/>
+        <rect x="160" y="274" width="100" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+        <rect x="160" y="284" width="80" height="4" rx="2" fill="rgba(255,255,255,0.1)"/>
+        <rect x="160" y="298" width="14" height="24" rx="2" fill="rgba(200,168,75,0.5)"/>
+        <rect x="180" y="308" width="14" height="14" rx="2" fill="rgba(200,168,75,0.35)"/>
+        <rect x="200" y="294" width="14" height="28" rx="2" fill="rgba(200,168,75,0.6)"/>
+        <rect x="220" y="304" width="14" height="18" rx="2" fill="rgba(200,168,75,0.4)"/>
+        <rect x="240" y="290" width="14" height="32" rx="2" fill="rgba(200,168,75,0.7)"/>
+        <rect x="130" y="348" width="200" height="10" rx="5" fill="#1A2E22" stroke="#C8A84B" stroke-width="1"/>
+        <!-- Libro izq -->
+        <rect x="75" y="285" width="48" height="56" rx="3" fill="#C8A84B" opacity="0.9"/>
+        <rect x="75" y="285" width="6" height="56" rx="2" fill="#A88A32"/>
+        <rect x="85" y="298" width="28" height="3" rx="1.5" fill="rgba(255,255,255,0.6)"/>
+        <rect x="85" y="306" width="22" height="3" rx="1.5" fill="rgba(255,255,255,0.4)"/>
+        <rect x="85" y="314" width="26" height="3" rx="1.5" fill="rgba(255,255,255,0.4)"/>
+        <!-- Libro der -->
+        <g transform="rotate(-8 337 308)">
+          <rect x="315" y="278" width="44" height="60" rx="3" fill="#4A7A5E" opacity="0.9"/>
+          <rect x="315" y="278" width="6" height="60" rx="2" fill="#2E5A42"/>
+          <rect x="325" y="292" width="24" height="3" rx="1.5" fill="rgba(255,255,255,0.5)"/>
+          <rect x="325" y="300" width="20" height="3" rx="1.5" fill="rgba(255,255,255,0.35)"/>
+          <rect x="325" y="308" width="22" height="3" rx="1.5" fill="rgba(255,255,255,0.35)"/>
+        </g>
+        <!-- Planta -->
+        <rect x="385" y="295" width="10" height="48" rx="5" fill="#2E4A3A"/>
+        <ellipse cx="390" cy="280" rx="22" ry="26" fill="#2E6348" opacity="0.9"/>
+        <ellipse cx="375" cy="296" rx="16" ry="19" fill="#3A7A5A" opacity="0.8"/>
+        <ellipse cx="405" cy="296" rx="16" ry="19" fill="#3A7A5A" opacity="0.8"/>
+        <ellipse cx="390" cy="268" rx="12" ry="15" fill="#4A8A6A" opacity="0.9"/>
+        <!-- Figura persona -->
+        <circle cx="230" cy="185" r="26" fill="none" stroke="#C8A84B" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="230" cy="185" r="18" fill="rgba(200,168,75,0.1)"/>
+        <path d="M208 212 Q230 232 252 212 L256 285 Q230 296 204 285 Z" fill="rgba(46,99,72,0.35)" stroke="#4A7A5E" stroke-width="1"/>
+        <path d="M208 224 Q188 248 178 268" stroke="#C8A84B" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+        <path d="M252 224 Q268 246 276 263" stroke="#C8A84B" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+        <!-- Bombilla -->
+        <g transform="translate(272,118)">
+          <circle cx="0" cy="0" r="22" fill="rgba(200,168,75,0.08)" stroke="rgba(200,168,75,0.25)" stroke-width="1"/>
+          <path d="M-7,-13 Q-8,0 -7,6 Q0,13 7,6 Q8,0 7,-13 Q0,-19 -7,-13Z" fill="rgba(200,168,75,0.55)"/>
+          <rect x="-5" y="6" width="10" height="3" rx="1" fill="rgba(200,168,75,0.45)"/>
+          <rect x="-3.5" y="10" width="7" height="3" rx="1" fill="rgba(200,168,75,0.35)"/>
+          <line x1="0" y1="-26" x2="0" y2="-22" stroke="rgba(200,168,75,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="18" y1="-18" x2="15" y2="-15" stroke="rgba(200,168,75,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="-18" y1="-18" x2="-15" y2="-15" stroke="rgba(200,168,75,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="0" x2="20" y2="0" stroke="rgba(200,168,75,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="-24" y1="0" x2="-20" y2="0" stroke="rgba(200,168,75,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
+        <!-- Red de nodos -->
+        <circle cx="108" cy="148" r="6" fill="rgba(200,168,75,0.25)" stroke="#C8A84B" stroke-width="1"/>
+        <circle cx="144" cy="118" r="4" fill="rgba(200,168,75,0.2)" stroke="#C8A84B" stroke-width="1"/>
+        <circle cx="166" cy="153" r="5" fill="rgba(200,168,75,0.22)" stroke="#C8A84B" stroke-width="1"/>
+        <line x1="108" y1="148" x2="144" y2="118" stroke="rgba(200,168,75,0.18)" stroke-width="1"/>
+        <line x1="144" y1="118" x2="166" y2="153" stroke="rgba(200,168,75,0.18)" stroke-width="1"/>
+        <line x1="108" y1="148" x2="166" y2="153" stroke="rgba(200,168,75,0.12)" stroke-width="1"/>
+        <!-- Partículas -->
+        <circle cx="350" cy="138" r="3" fill="rgba(200,168,75,0.28)"/>
+        <circle cx="368" cy="162" r="2" fill="rgba(200,168,75,0.2)"/>
+        <circle cx="338" cy="172" r="4" fill="rgba(200,168,75,0.14)"/>
+        <circle cx="88" cy="218" r="3" fill="rgba(200,168,75,0.18)"/>
+        <circle cx="72" cy="242" r="2" fill="rgba(200,168,75,0.14)"/>
+        <!-- Texto decorativo -->
+        <text x="48" y="462" font-family="Cormorant Garamond, serif" font-size="11" fill="rgba(200,168,75,0.18)" letter-spacing="3" font-style="italic">aprender · crecer · transformar</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div id="quiz" class="screen">
+  <div class="quiz-nav">
+    <div class="nav-brand">
+      <div class="nav-brand-text">Assessment · Aprendizaje Organizacional</div>
+    </div>
+    <div class="progress-area">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-num" id="progressNum">0 / 12</div>
+    </div>
+  </div>
+  <div class="quiz-body">
+    <div class="dim-tag"><div class="dim-dot" id="dimDot"></div><div class="dim-label" id="dimLabel"></div></div>
+    <div class="q-num" id="qNum"></div>
+    <div class="q-text" id="qText"></div>
+    <div class="options" id="optionsWrap"></div>
+    <div class="nav-row">
+      <button class="btn-back" id="btnBack" onclick="goBack()" disabled>← Anterior</button>
+      <button class="btn-next" id="btnNext" onclick="goNext()" disabled>Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<div id="results" class="screen">
+  <div class="results-hero">
+    <div class="results-top-bar"></div>
+    <div class="results-brand">Tu Diagnóstico</div>
+    <div class="ring-wrap">
+      <svg width="170" height="170" viewBox="0 0 170 170">
+        <circle cx="85" cy="85" r="72" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+        <circle cx="85" cy="85" r="72" fill="none" stroke="#C8A84B" stroke-width="10"
+          stroke-dasharray="452.4" stroke-dashoffset="452.4" stroke-linecap="round" id="ringCircle"
+          style="transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)"/>
+      </svg>
+      <div class="ring-inner">
+        <span class="ring-num" id="ringNum">0</span>
+        <span class="ring-of">/ 100</span>
+      </div>
+    </div>
+    <div class="result-level" id="resultLevel"></div>
+    <div class="result-desc" id="resultDesc"></div>
+  </div>
+  <div class="results-body">
+    <div class="section-label">Resultados por dimensión</div>
+    <div id="dimResults"></div>
+    <div class="recs-card">
+      <div class="recs-title">Próximos pasos recomendados</div>
+      <div id="recsList"></div>
+    </div>
+    <div class="cta-card">
+      <div class="cta-title">¿Querés profundizar este diagnóstico?</div>
+      <div class="cta-sub">Este assessment es el punto de partida. La transformación real del aprendizaje requiere acompañamiento estratégico a medida de tu organización.</div>
+      <a href="mailto:hola@eduagil.com" class="btn-cta">Conectar con Karina</a>
+    </div>
+    <button class="restart-btn" onclick="restartQuiz()">↺ Volver a empezar</button>
+    <div class="footer-sign">
+      <span class="footer-brand">Transformación del Aprendizaje Organizacional</span>
+      Diseñado por Karina · Co-creado con Claude, su agente de IA
+    </div>
+  </div>
+</div>
+
+<script>
+const Q=[
+  {dim:"Diagnóstico de brechas",color:"#C8A84B",text:"Cuando alguien de tu organización termina una capacitación, ¿cómo saben si incorporó lo que aprendió?",opts:[{t:"No lo medimos. Confiamos en que sí.",s:1},{t:"Hay una evaluación al finalizar el curso.",s:2},{t:"Hacemos seguimiento a las semanas siguientes con el líder.",s:3},{t:"Tenemos indicadores de desempeño que se comparan antes y después.",s:4}]},
+  {dim:"Diagnóstico de brechas",color:"#C8A84B",text:"¿Tu organización sabe exactamente cuáles son las brechas de habilidades que frenan los resultados del negocio hoy?",opts:[{t:"No tenemos un análisis formal de brechas.",s:1},{t:"Tenemos intuición pero no datos.",s:2},{t:"Hicimos un relevamiento hace más de un año.",s:3},{t:"Tenemos un proceso activo y continuo de diagnóstico.",s:4}]},
+  {dim:"Diseño del aprendizaje",color:"#4A7A5E",text:"¿Cómo se diseñan las capacitaciones en tu organización?",opts:[{t:"Compramos cursos o talleres que parecen relevantes.",s:1},{t:"Adaptamos contenido existente a nuestro contexto.",s:2},{t:"Diseñamos experiencias a medida según el problema a resolver.",s:3},{t:"Co-diseñamos junto a los equipos del negocio y medimos el impacto.",s:4}]},
+  {dim:"Diseño del aprendizaje",color:"#4A7A5E",text:"¿Cuánto tiempo después de una formación los participantes aplican lo que aprendieron en su trabajo real?",opts:[{t:"Rara vez lo aplican, o no lo sabemos.",s:1},{t:"Algunos lo aplican, pero es iniciativa propia.",s:2},{t:"Hay instancias de práctica planificadas dentro del programa.",s:3},{t:"El aprendizaje está integrado en el flujo de trabajo diario.",s:4}]},
+  {dim:"Cultura de aprendizaje",color:"#9AA8A0",text:"¿Cuánto tiempo pasó desde que alguien de tu equipo directivo cursó una formación formal y la aplicó en decisiones reales?",opts:[{t:"Hace más de dos años, y no sé si se aplicó.",s:1},{t:"Hace un año, hubo intención pero poca aplicación.",s:2},{t:"Hace menos de seis meses, con alguna aplicación concreta.",s:3},{t:"Es continuo: aprender y aplicar son parte del trabajo.",s:4}]},
+  {dim:"Cultura de aprendizaje",color:"#9AA8A0",text:"Cuando alguien propone una nueva forma de hacer algo basada en lo que aprendió, ¿qué pasa típicamente?",opts:[{t:"Se frena: 'acá siempre lo hicimos así'.",s:1},{t:"Se escucha pero raramente se implementa.",s:2},{t:"Se experimenta en pequeña escala.",s:3},{t:"Hay un proceso para pilotear, medir e implementar mejoras.",s:4}]},
+  {dim:"Liderazgo del aprendizaje",color:"#2E6348",text:"¿Los líderes de tu organización modelan el aprendizaje? ¿Se los ve aprender en público, cometer errores y crecer?",opts:[{t:"No, el liderazgo transmite que 'ya saben'.",s:1},{t:"Algunos sí, de manera individual, pero no es la norma.",s:2},{t:"Hay iniciativas de liderazgo visible, aunque aún aisladas.",s:3},{t:"Es parte de la cultura: los líderes aprenden y lo muestran.",s:4}]},
+  {dim:"Liderazgo del aprendizaje",color:"#2E6348",text:"¿Existe alguien en tu organización responsable formal del aprendizaje como palanca estratégica?",opts:[{t:"No. Lo gestionamos entre todos cuando surge.",s:1},{t:"Hay alguien de RRHH que lo coordina operativamente.",s:2},{t:"Hay un rol de L&D, aunque con poca influencia estratégica.",s:3},{t:"Hay un responsable de aprendizaje con rol en las decisiones del negocio.",s:4}]},
+  {dim:"Tecnología e innovación",color:"#E2C97E",text:"¿Tu organización usa tecnología de aprendizaje (LMS, plataformas, IA) con un propósito pedagógico claro?",opts:[{t:"Usamos plataformas pero sin criterio pedagógico definido.",s:1},{t:"Tenemos herramientas pero poca integración entre sí.",s:2},{t:"Hay una estrategia tecnológica, aunque en desarrollo.",s:3},{t:"La tecnología está integrada y alineada a objetivos de aprendizaje.",s:4}]},
+  {dim:"Tecnología e innovación",color:"#E2C97E",text:"¿Tu organización experimenta con inteligencia artificial como herramienta de aprendizaje o desarrollo de capacidades?",opts:[{t:"No. La IA es un tema ajeno al área de aprendizaje.",s:1},{t:"Hay curiosidad pero ninguna iniciativa concreta.",s:2},{t:"Estamos piloteando alguna herramienta con IA.",s:3},{t:"La IA ya forma parte de nuestra estrategia de L&D.",s:4}]},
+  {dim:"Impacto y medición",color:"#C8A84B",text:"¿Podés decir con precisión cuánto impactó en los resultados del negocio la última iniciativa de capacitación?",opts:[{t:"No. Medimos satisfacción, no impacto.",s:1},{t:"Tenemos intuición de que funcionó, pero sin datos.",s:2},{t:"Medimos algunos indicadores, pero no de manera sistemática.",s:3},{t:"Sí. Tenemos KPIs de aprendizaje vinculados a métricas del negocio.",s:4}]},
+  {dim:"Impacto y medición",color:"#C8A84B",text:"Si tuvieras que mostrarle a la dirección el ROI del aprendizaje en tu organización, ¿qué podrías presentar?",opts:[{t:"Cantidad de horas de capacitación y encuestas de satisfacción.",s:1},{t:"Algún caso de éxito puntual, sin datos sistemáticos.",s:2},{t:"Un reporte parcial con métricas de adopción y completion.",s:3},{t:"Un dashboard de impacto vinculado a productividad, retención y negocio.",s:4}]}
+];
+const DC={};Q.forEach(q=>DC[q.dim]=q.color);
+let cur=0,ans=[];
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function startQuiz(){cur=0;ans=[];renderQ();showScreen('quiz')}
+function renderQ(){
+  const q=Q[cur];
+  document.getElementById('dimDot').style.background=q.color;
+  document.getElementById('dimLabel').textContent=q.dim;
+  document.getElementById('qNum').textContent='Pregunta '+(cur+1)+' de '+Q.length;
+  document.getElementById('qText').textContent=q.text;
+  const pct=((cur+1)/Q.length*100).toFixed(0);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressNum').textContent=(cur+1)+' / '+Q.length;
+  const letters=['A','B','C','D'];
+  const wrap=document.getElementById('optionsWrap');wrap.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt'+(ans[cur]===i?' selected':'');
+    btn.innerHTML='<span class="opt-badge">'+letters[i]+'</span><span class="opt-text">'+o.t+'</span>';
+    btn.onclick=()=>pick(i);wrap.appendChild(btn);
+  });
+  document.getElementById('btnBack').disabled=cur===0;
+  document.getElementById('btnNext').disabled=ans[cur]===undefined;
+  document.getElementById('btnNext').textContent=cur===Q.length-1?'Ver resultados →':'Siguiente →';
+}
+function pick(i){ans[cur]=i;document.querySelectorAll('.opt').forEach((b,idx)=>b.classList.toggle('selected',idx===i));document.getElementById('btnNext').disabled=false}
+function goNext(){if(ans[cur]===undefined)return;if(cur===Q.length-1){showResults();return}cur++;renderQ()}
+function goBack(){if(cur>0){cur--;renderQ()}}
+function showResults(){
+  const ds={},dm={};
+  Q.forEach((q,i)=>{if(!ds[q.dim]){ds[q.dim]=0;dm[q.dim]=0}ds[q.dim]+=(ans[i]!==undefined?q.opts[ans[i]].s:1);dm[q.dim]+=4});
+  let tot=0,max=0;Object.keys(ds).forEach(d=>{tot+=ds[d];max+=dm[d]});
+  const pct=Math.round(tot/max*100);
+  let level,desc,rc;
+  if(pct<=30){level="Organización en punto de partida";desc="El aprendizaje existe, pero de manera reactiva y sin conexión con la estrategia. Hay un enorme potencial por activar.";rc="#A84030"}
+  else if(pct<=55){level="Organización en transición";desc="Hay conciencia del valor del aprendizaje, pero falta sistematización, liderazgo visible y conexión con el negocio.";rc="#C8A84B"}
+  else if(pct<=75){level="Organización en construcción activa";desc="Las bases están puestas. El desafío es escalar, medir y convertir el aprendizaje en ventaja competitiva real.";rc="#4A7A5E"}
+  else{level="Organización de aprendizaje avanzada";desc="El aprendizaje está integrado como capacidad estratégica. El foco ahora es innovar y mantenerse en la frontera.";rc="#2E6348"}
+  document.getElementById('ringNum').textContent=pct;
+  document.getElementById('resultLevel').textContent=level;
+  document.getElementById('resultDesc').textContent=desc;
+  const circ=document.getElementById('ringCircle');circ.style.stroke=rc;
+  setTimeout(()=>{circ.style.strokeDashoffset=452.4-(pct/100)*452.4},300);
+  const dr=document.getElementById('dimResults');dr.innerHTML='';
+  Object.keys(ds).forEach(d=>{
+    const p=Math.round(ds[d]/dm[d]*100);const c=DC[d]||'#C8A84B';
+    dr.innerHTML+='<div class="dim-row"><div class="dim-name">'+d+'</div><div class="bar-bg"><div class="bar-fill" style="width:0%;background:'+c+'" data-p="'+p+'"></div></div><div class="bar-pct">'+p+'%</div></div>';
+  });
+  showScreen('results');
+  setTimeout(()=>{document.querySelectorAll('.bar-fill').forEach(b=>{b.style.width=b.dataset.p+'%'})},400);
+  const recs=[];
+  if(ds["Diagnóstico de brechas"]/dm["Diagnóstico de brechas"]<0.6)recs.push("Iniciá con un diagnóstico formal de brechas: identificá qué habilidades están frenando resultados concretos del negocio.");
+  if(ds["Diseño del aprendizaje"]/dm["Diseño del aprendizaje"]<0.6)recs.push("Revisá cómo se diseñan tus programas: el aprendizaje efectivo no se compra, se construye a medida del contexto y el desafío.");
+  if(ds["Cultura de aprendizaje"]/dm["Cultura de aprendizaje"]<0.6)recs.push("La cultura se modela desde arriba: trabajá con líderes para que el aprendizaje sea visible, valorado y reconocido.");
+  if(ds["Liderazgo del aprendizaje"]/dm["Liderazgo del aprendizaje"]<0.6)recs.push("Definí quién es responsable del aprendizaje como función estratégica en tu organización.");
+  if(ds["Tecnología e innovación"]/dm["Tecnología e innovación"]<0.6)recs.push("Explorá cómo la IA puede personalizar y escalar el aprendizaje: la tecnología debe estar al servicio de la pedagogía.");
+  if(ds["Impacto y medición"]/dm["Impacto y medición"]<0.6)recs.push("Conectá las iniciativas de aprendizaje con KPIs de negocio: lo que no se mide, no se gestiona ni se escala.");
+  if(recs.length===0)recs.push("Tu organización tiene bases sólidas. El siguiente paso: IA generativa, aprendizaje en el flujo de trabajo y ecosistemas de habilidades dinámicos.");
+  document.getElementById('recsList').innerHTML=recs.map((r,i)=>'<div class="rec-item"><div class="rec-num">'+(i+1)+'</div><div class="rec-text">'+r+'</div></div>').join('');
+}
+function restartQuiz(){startQuiz()}
+</script>
+</body>
+</html>
