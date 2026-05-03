@@ -113,6 +113,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
 .restart-btn:hover{border-color:var(--sage);color:var(--sage)}
 .footer-sign{text-align:center;font-size:11px;color:var(--silver);letter-spacing:0.06em;margin-top:3rem;line-height:2;font-weight:300}
 .footer-brand{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:15px;color:var(--forest);display:block;margin-bottom:4px}
+.footer-kindo{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:14px;color:var(--gold);letter-spacing:0.04em}
 @media(max-width:768px){#intro{grid-template-columns:1fr}.intro-right{display:none}.intro-left{padding:2.5rem 1.5rem}}
 </style>
 </head>
@@ -262,15 +263,11 @@ body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font
       <div class="recs-title">Próximos pasos recomendados</div>
       <div id="recsList"></div>
     </div>
-    <div class="cta-card">
-      <div class="cta-title">¿Querés profundizar este diagnóstico?</div>
-      <div class="cta-sub">Este assessment es el punto de partida. La transformación real del aprendizaje requiere acompañamiento estratégico a medida de tu organización.</div>
-      <a href="mailto:hola@eduagil.com" class="btn-cta">Conectar con Karina</a>
-    </div>
     <button class="restart-btn" onclick="restartQuiz()">↺ Volver a empezar</button>
     <div class="footer-sign">
       <span class="footer-brand">Transformación del Aprendizaje Organizacional</span>
-      Diseñado por Karina · Co-creado con Claude, su agente de IA
+      Diseñado por Karina · Co-creado con Claude · Un paso más en la construcción de<br>
+      <span class="footer-kindo">Kïndo: IA con intención pedagógica para organizaciones</span>
     </div>
   </div>
 </div>
@@ -293,7 +290,7 @@ const Q=[
 const DC={};Q.forEach(q=>DC[q.dim]=q.color);
 let cur=0,ans=[];
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
-function startQuiz(){cur=0;ans=[];renderQ();showScreen('quiz')}
+function startQuiz(){cur=0;ans=[];renderQ();showScreen('quiz');setTimeout(()=>{document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'})},100)}
 function renderQ(){
   const q=Q[cur];
   document.getElementById('dimDot').style.background=q.color;
@@ -342,10 +339,10 @@ function showResults(){
   setTimeout(()=>{document.querySelectorAll('.bar-fill').forEach(b=>{b.style.width=b.dataset.p+'%'})},400);
   const recs=[];
   if(ds["Diagnóstico de brechas"]/dm["Diagnóstico de brechas"]<0.6)recs.push("Iniciá con un diagnóstico formal de brechas: identificá qué habilidades están frenando resultados concretos del negocio.");
-  if(ds["Diseño del aprendizaje"]/dm["Diseño del aprendizaje"]<0.6)recs.push("Revisá cómo se diseñan tus programas: el aprendizaje efectivo no se compra, se construye a medida del contexto y el desafío.");
+  if(ds["Diseño del aprendizaje"]/dm["Diseño del aprendizaje"]<0.6)recs.push("Revisá cómo se diseñan los recorridos de aprendizaje en tu organización. Aprender de manera efectiva no es algo que puedas comprar, pero sí moldear y construir a medida del contexto y del desafío.");
   if(ds["Cultura de aprendizaje"]/dm["Cultura de aprendizaje"]<0.6)recs.push("La cultura se modela desde arriba: trabajá con líderes para que el aprendizaje sea visible, valorado y reconocido.");
-  if(ds["Liderazgo del aprendizaje"]/dm["Liderazgo del aprendizaje"]<0.6)recs.push("Definí quién es responsable del aprendizaje como función estratégica en tu organización.");
-  if(ds["Tecnología e innovación"]/dm["Tecnología e innovación"]<0.6)recs.push("Explorá cómo la IA puede personalizar y escalar el aprendizaje: la tecnología debe estar al servicio de la pedagogía.");
+  if(ds["Liderazgo del aprendizaje"]/dm["Liderazgo del aprendizaje"]<0.6)recs.push("Explorá e identificá si en tu organización o equipos contás con colaboradores que tengan los skills para asumir el desafío de liderar el aprendizaje como una función estratégica.");
+  if(ds["Tecnología e innovación"]/dm["Tecnología e innovación"]<0.6)recs.push("Explorá cómo la IA puede personalizar y escalar el aprendizaje: recordá que la tecnología debe estar siempre al servicio de la pedagogía.");
   if(ds["Impacto y medición"]/dm["Impacto y medición"]<0.6)recs.push("Conectá las iniciativas de aprendizaje con KPIs de negocio: lo que no se mide, no se gestiona ni se escala.");
   if(recs.length===0)recs.push("Tu organización tiene bases sólidas. El siguiente paso: IA generativa, aprendizaje en el flujo de trabajo y ecosistemas de habilidades dinámicos.");
   document.getElementById('recsList').innerHTML=recs.map((r,i)=>'<div class="rec-item"><div class="rec-num">'+(i+1)+'</div><div class="rec-text">'+r+'</div></div>').join('');
